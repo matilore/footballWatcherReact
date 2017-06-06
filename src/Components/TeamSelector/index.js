@@ -1,13 +1,11 @@
 import React from 'react'
-import axios from 'axios'
 import styled from "styled-components"
 
 import actionCreators from '../../actions/index'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import envVariables from '../../config'
-const API_URL = envVariables.API_URL
+import apiService from '../../utils/apiService'
 
 
 class TeamSelector extends React.Component {
@@ -41,7 +39,7 @@ class TeamSelector extends React.Component {
           }
     }
 
-    axios.post(`${API_URL}/api/users/addteam`, data)
+    apiService.addTeamToUser(data)
     .then(function(response){
       this.props.history.push('/')
       this.props.chooseTeam(response.data.teamAdded)

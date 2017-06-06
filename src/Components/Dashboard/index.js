@@ -1,5 +1,4 @@
 import React from 'react'
-import axios from 'axios'
 import styled from 'styled-components'
 
 import VideoSection from '../VideoSection'
@@ -9,15 +8,16 @@ import actionCreators from '../../actions/index'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import envVariables from '../../config'
-const API_URL = envVariables.API_URL
+import apiService from '../../utils/apiService'
+
+
 
 class Dashboard extends React.Component {
 
 
   componentWillMount(){
     let token = localStorage.getItem('token')
-    axios.post(`${API_URL}/api`, {token})
+    apiService.sendToken(token)
     .then(function (response) {
       let user = response.data.user
       this.props.authUser(user)

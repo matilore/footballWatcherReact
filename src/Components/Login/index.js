@@ -1,12 +1,8 @@
 import React from 'react'
-import axios from 'axios'
-
 import styled from 'styled-components'
-
 import {FormGroup, ControlLabel, FormControl } from 'react-bootstrap'
 
-import envVariables from '../../config'
-const API_URL = envVariables.API_URL
+import apiService from '../../utils/apiService'
 
 
 class Login extends React.Component {
@@ -19,8 +15,7 @@ class Login extends React.Component {
       password: this.password.value
     }
 
-    axios.post(`${API_URL}/api/login`,
-    user)
+    apiService.makeLogin(user)
     .then(function (response) {
       if (response.data.token !== undefined) {
         localStorage.setItem('token', response.data.token)
@@ -60,9 +55,7 @@ class Login extends React.Component {
 
 const Wrapper = styled.div`
   width: 60%;
-  margin-top: 10%;
-  margin-left: auto
-  margin-right: auto
+  margin: 10% auto;
 `
 const Button = styled.button`
   width: 100%;

@@ -16,3 +16,15 @@ export function previousMenuVideos(){
     type: "PREVIOUS_VIDEOS"
   }
 }
+
+export function mouseOverBackground(){
+  return {
+    type: 'MOUSE_OVER_BACKGROUND'
+  }
+}
+
+export function restoreBackground(){
+  return {
+    type: 'RESTORE_BACKGROUND'
+  }
+}

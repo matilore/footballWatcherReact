@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 
-
 import actionCreators from '../../actions/index'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -11,10 +10,14 @@ class YTMenu extends React.Component {
   renderVideos(){
     let menuCounter = this.props.videos.menuCounter;
     return this.props.videos.list.slice(menuCounter, menuCounter + 5).map((video, index)=>{
+      let thumbnail = video.snippet.thumbnails.medium.url
       return (
-        <ImgWrapper key={index}>
-          <img onClick={this.props.selectActiveVideo.bind(null, video)} style={{width: '100%',height: '100%'}} src={video.snippet.thumbnails.medium.url} alt=""/>
-        </ImgWrapper>
+        <Thumbnail
+          selectActiveVideo={this.props.selectActiveVideo}
+          video={video}
+          thumbnail={thumbnail}
+          key={index}>
+        </Thumbnail>
       )
     })
   }
@@ -49,9 +52,12 @@ const VideosWrapper = styled.div`
 `
 
 const ImgWrapper = styled.div`
-  flex-basis: 20%
+  flex-basis: 20%;
   height: auto;
   flex-shrink:6;
+  background: linear-gradient(${(props) => props.gradient}, ${(props) => props.gradient}), url(${(props) => props.thumbnail });
+  background-size: 100% 100%;
+  opacity: 1;
 `
 
 const Button = styled.button`
@@ -64,6 +70,54 @@ const Button = styled.button`
   fontSize: 1em;
   flex-shrink:1
 `
+
+
+
+class Thumbnail extends React.Component {
+
+  constructor(){
+    super()
+    this.state = {hover: false}
+    this.styleOnHover = this.styleOnHover.bind(this)
+    this.mouseOver = this.mouseOver.bind(this)
+    this.mouseLeave = this.mouseLeave.bind(this)
+  }
+
+  mouseOver(){
+    this.setState({hover: true})
+  }
+
+  mouseLeave(){
+    this.setState({hover: false})
+  }
+
+  styleOnHover(){
+
+    if (this.state.hover === false) {
+      let colorsGradient = ['rgba(66,39,90, 0.3)', 'rgba(115,75,109, 0.3)', 'rgba(20,30,48, 0.3)', 'rgba(20,30,48, 0.3)',
+      'rgba(233,100,67, 0.3)', 'rgba(144,78,149, 0.3)', 'rgba(168,0,119, 0.3)', 'rgba(102,255,0, 0.3)']
+      let randomColorIndex = Math.floor(Math.random() * 7 ) + 1
+      this.gradient = colorsGradient[randomColorIndex]
+    } else {
+      this.gradient = 'rgba(255, 255, 255, 0)'
+    }
+  }
+
+  render () {
+
+    this.styleOnHover()
+
+    return(
+      <ImgWrapper
+        gradient={this.gradient}
+        onClick={this.props.selectActiveVideo.bind(null, this.props.video)}
+        onMouseOver={this.mouseOver}
+        onMouseLeave={this.mouseLeave}
+        thumbnail={this.props.thumbnail}
+        />
+    )
+  }
+}
 
 
 function mapStateToProps(state){

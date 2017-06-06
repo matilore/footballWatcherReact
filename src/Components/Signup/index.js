@@ -1,11 +1,10 @@
 import React from 'react'
-import axios from 'axios'
 import styled from 'styled-components'
 
 import {FormGroup, ControlLabel, FormControl } from 'react-bootstrap'
 
-import envVariables from '../../config'
-const API_URL = envVariables.API_URL
+import apiService from '../../utils/apiService'
+
 
 class Signup extends React.Component {
 
@@ -28,9 +27,7 @@ class Signup extends React.Component {
       password: this.password.value
     }
 
-
-    axios.post(`${API_URL}/api/signup`,
-    user)
+    apiService.makeSignup(user)
     .then(function (response) {
       if (response.data.token !== undefined) {
         localStorage.setItem('token', response.data.token)

@@ -10,12 +10,6 @@ import Logout from '../Logout'
 
 class LateralBar extends React.Component {
 
-  constructor(props){
-    super(props)
-    this.teams = props.user.teams
-  }
-
-
   clickForRemove(event) {
     let target = event.target
     let defaultClass = target.className

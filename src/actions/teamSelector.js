@@ -1,7 +1,5 @@
-import axios from 'axios'
-import envVariables from '../config'
+import apiService from '../utils/apiService'
 
-const API_URL = envVariables.API_URL
 
 function sendLeagues(leagues){
   return {
@@ -13,7 +11,7 @@ function sendLeagues(leagues){
 export function fetchLeagues() {
 
   return function(dispatch) {
-    axios.get(`${API_URL}/api/leagues`)
+    apiService.getLeagues()
     .then(function(response){
       dispatch(sendLeagues(response.data.leagues));
     })
@@ -28,7 +26,7 @@ export function fetchLeagues() {
 export function removeTeamFromUser(data){
   return function(dispatch) {
 
-    axios.post(`${API_URL}/api/users/removeteam`, data)
+    apiService.removeTeam(data)
     .then(function(response){
       let userUpdated = response.data.user
       dispatch(updateUser(userUpdated))

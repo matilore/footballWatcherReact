@@ -15,7 +15,7 @@ const actionCreators = {
   decreaseTeam,
   selectActiveVideo,
   nextMenuVideos,
-  previousMenuVideos
+  previousMenuVideos,
 }
 
 export default actionCreators
